@@ -104,7 +104,7 @@ def consultar_registros(filtro=""):
 
     try:
         consulta = """
-            SELECT TOP 100 id_api, codigo_municipio, nombre_municipio,
+            SELECT TOP 1000 id_api, codigo_municipio, nombre_municipio,
                    nombre_departamento, entidad, tipo_entidad, poblacion,
                    cantidad_usuarios, cantidad_contenido, cantidad_comentarios
             FROM RegistrosAPI
