@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datos Abiertos | Colombia</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+</head>
+<body>
+    <header class="topbar">
+        <a class="marca" href="{{ url_for('inicio') }}">
+            <span class="marca-icono">DA</span>
+            <span>Datos Abiertos <small>COLOMBIA · CONSULTA Y ANÁLISIS</small></span>
+        </a>
+        <span class="estado"><i></i> Aplicación local</span>
+    </header>
+
+    <main class="contenedor">
+        <section class="hero">
+            <div>
+                <p class="etiqueta">PROYECTO INTEGRADOR · API REST + SQL SERVER + MVC</p>
+                <h1>Información pública,<br><em>más fácil de consultar.</em></h1>
+                <p class="subtitulo">Consulta registros de portales territoriales de Colombia, almacénalos en SQL Server y explóralos desde una sola pantalla.</p>
+                <form action="{{ url_for('sincronizar') }}" method="POST">
+                    <button class="boton-principal" type="submit">↻ &nbsp; Consultar API y guardar datos</button>
+                </form>
+            </div>
+            <div class="hero-grafico" aria-hidden="true">
+                <div class="circulo circulo-uno"></div>
+                <div class="circulo circulo-dos"></div>
+                <div class="tarjeta-flotante"><span>CO</span><strong>Datos<br>públicos</strong><small>Colombia</small></div>
+                <div class="punto punto-uno"></div><div class="punto punto-dos"></div><div class="punto punto-tres"></div>
+            </div>
+        </section>
+
+        {% with mensajes = get_flashed_messages(with_categories=true) %}
+            {% if mensajes %}
+                {% for categoria, mensaje in mensajes %}
+                    <div class="alerta {{ categoria }}">{{ mensaje }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <section class="indicadores">
+            <article class="indicador"><span class="indicador-icono">▦</span><div><small>REGISTROS GUARDADOS</small><strong>{{ estadisticas.total }}</strong></div></article>
+            <article class="indicador"><span class="indicador-icono">⌖</span><div><small>DEPARTAMENTOS</small><strong>{{ estadisticas.departamentos }}</strong></div></article>
+            <article class="indicador"><span class="indicador-icono">⌂</span><div><small>MUNICIPIOS</small><strong>{{ estadisticas.municipios }}</strong></div></article>
+        </section>
+
+        <section class="panel">
+            <div class="panel-cabecera">
+                <div><p class="etiqueta">BASE DE DATOS · SQL SERVER</p><h2>Registros almacenados</h2><p class="descripcion">Los resultados se consultan desde SQL Server, no directamente desde la API.</p></div>
+                <span class="contador">{{ registros|length }} resultados</span>
+            </div>
+            <form class="busqueda" action="{{ url_for('inicio') }}" method="GET">
+                <span>⌕</span>
+                <input type="text" name="q" value="{{ filtro }}" placeholder="Buscar municipio, departamento o entidad...">
+                <button type="submit">Buscar</button>
+                {% if filtro %}<a href="{{ url_for('inicio') }}">Limpiar</a>{% endif %}
+            </form>
+
+            <div class="tabla-contenedor">
+                <table>
+                    <thead><tr>
+                        <th>CÓDIGO</th><th>MUNICIPIO</th><th>DEPARTAMENTO</th>
+                        <th>ENTIDAD</th><th>POBLACIÓN</th><th>USUARIOS</th>
+                    </tr></thead>
+                    <tbody>
+                    {% for fila in registros %}
+                        <tr>
+                            <td><span class="codigo">{{ fila.codigo_municipio or "—" }}</span></td>
+                            <td class="municipio">{{ fila.nombre_municipio or "—" }}</td>
+                            <td>{{ fila.nombre_departamento or "—" }}</td>
+                            <td>{{ fila.entidad or "—" }}</td>
+                            <td>{{ fila.poblacion or "—" }}</td>
+                            <td>{{ fila.cantidad_usuarios or "—" }}</td>
+                        </tr>
+                    {% else %}
+                        <tr><td colspan="6" class="vacio">
+                            <span>▤</span><strong>No hay registros para mostrar</strong>
+                            <small>Consulta la API para cargar información o cambia el filtro de búsqueda.</small>
+                        </td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <p class="nota-tabla">Se muestran hasta 100 registros por consulta.</p>
+        </section>
+
+        <footer>
+            <span>DESARROLLO DE APLICACIONES CON ACCESO A DATOS</span>
+            <span>Equipo: Luis Sierra · José Maldonado · Juan David Donado</span>
+        </footer>
+    </main>
+</body>
+</html>

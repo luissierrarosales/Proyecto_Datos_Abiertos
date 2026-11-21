@@ -1,0 +1,10 @@
+EVIDENCIAS REALES DEL PROYECTO
+
+1. Ejecuta instalar.bat y configura .env.
+2. Ejecuta probar_api.py para generar respuesta_api.json.
+3. Ejecuta el script SQL y luego inicia la aplicación.
+4. Captura la tabla SQL Server después de sincronizar.
+5. Captura la página principal y una búsqueda filtrada.
+6. Repite la sincronización y captura el mensaje de nuevos registros guardados.
+
+No se incluyen capturas ficticias. Guarda aquí las evidencias tomadas al ejecutar el proyecto.
