@@ -16,7 +16,7 @@ class APIClient:
 
     def obtener_registros(self, limite=None):
         """Solicita JSON a la API y devuelve una lista de registros."""
-        cantidad = int(limite or os.getenv("API_LIMIT", "100"))
+        cantidad = int(limite or os.getenv("API_LIMIT", "1000"))
         respuesta = requests.get(
             self.url,
             params={"$limit": cantidad},
